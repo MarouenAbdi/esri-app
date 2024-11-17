@@ -17,7 +17,6 @@ import './Map.css';
 
 interface MapProps {
 	basemap: string;
-	onViewReady: () => void;
 	onViewClick: (event: any) => void;
 	is3D: boolean;
 }
@@ -32,7 +31,7 @@ const extent = new Extent({
 });
 
 export default function Map(props: MapProps) {
-	const { basemap, onViewReady, onViewClick, is3D } = props;
+	const { basemap, onViewClick, is3D } = props;
 	const sceneRef = useRef<HTMLArcgisSceneElement>(null);
 	const mapRef = useRef<HTMLArcgisMapElement>(null);
 	const [viewReady, setViewReady] = useState(false);
@@ -51,7 +50,6 @@ export default function Map(props: MapProps) {
 		});
 
 		setViewReady(true);
-		onViewReady();
 	};
 
 	return (

@@ -33,11 +33,6 @@ function App() {
 		setCoordinates(event.detail.mapPoint);
 	};
 
-	// Handle map ready
-	const handleViewReady = () => {
-		console.log('Map is ready');
-	};
-
 	// List of available ESRI basemaps
 	const basemaps = [
 		'streets',
@@ -124,7 +119,6 @@ function App() {
 				<div className="map-container">
 					<MyMap
 						basemap={basemap}
-						onViewReady={handleViewReady}
 						onViewClick={handleViewClick}
 						is3D={is3D} // Pass the is3D state
 					/>
