@@ -54,16 +54,11 @@ function App() {
 				<CalciteNavigationLogo
 					icon="clustering"
 					slot="logo"
-					heading="React Concepts"
-					description="Esri European Developer Summit 2024"
+					heading="ArcGIS Map SDK - React"
 				></CalciteNavigationLogo>
 			</CalciteNavigation>
 			<CalciteShellPanel slot="panel-start">
-				<CalcitePanel
-					style={{ padding: '10px' }}
-					heading="Map Controls"
-					className="options-container"
-				>
+				<CalcitePanel style={{ padding: '10px' }} className="options-container">
 					{/* 2D/3D Toggle */}
 					<button
 						onClick={() => setIs3D((prev) => !prev)}
@@ -115,7 +110,7 @@ function App() {
 			</CalciteShellPanel>
 
 			{/* Custom React component for the map */}
-			<CalcitePanel heading="Map">
+			<CalcitePanel>
 				<div className="map-container">
 					<MyMap
 						basemap={basemap}
