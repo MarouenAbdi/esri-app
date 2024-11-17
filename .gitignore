@@ -49,9 +49,6 @@ coverage/
 *.spec.js
 .jest/
 
-# GitHub Actions
-.github/workflows/
-
 # Miscellaneous
 *.tgz
 *.log
