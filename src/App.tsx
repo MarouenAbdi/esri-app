@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ArcgisMapCustomEvent } from '@arcgis/map-components';
 import {
 	CalciteNavigation,
 	CalciteNavigationLogo,
@@ -8,6 +7,8 @@ import {
 	CalciteShellPanel,
 	CalciteSelect,
 	CalciteOption,
+	CalciteButton,
+	CalciteLabel,
 } from '@esri/calcite-components-react';
 import '@esri/calcite-components/dist/components/calcite-navigation';
 import '@esri/calcite-components/dist/components/calcite-navigation-logo';
@@ -16,16 +17,14 @@ import '@esri/calcite-components/dist/components/calcite-shell';
 import '@esri/calcite-components/dist/components/calcite-shell-panel';
 import '@esri/calcite-components/dist/components/calcite-select';
 import '@esri/calcite-components/dist/components/calcite-option';
+import '@esri/calcite-components/dist/components/calcite-button';
 import './App.css';
-import Coordinates from './components/Coordinates';
 import MyMap from './components/Map';
 
 function App() {
 	const [basemap, setBasemap] = useState('satellite');
-	const [coordinates, setCoordinates] = useState<__esri.Point>();
 	const [is3D, setIs3D] = useState(false);
 
-	// Handle basemap change
 	const handleBasemapChange = (event: CustomEvent) => {
 		const target = event.target as HTMLCalciteSelectElement;
 		if (target) {
@@ -33,28 +32,18 @@ function App() {
 		}
 	};
 
-	// Handle map click
-	const handleViewClick = (
-		event: ArcgisMapCustomEvent<__esri.ViewClickEvent>
-	) => {
-		setCoordinates(event.detail.mapPoint);
-	};
-
-	// List of available ESRI basemaps
 	const basemaps = [
-		'streets',
-		'satellite',
-		'hybrid',
-		'topo-vector',
-		'gray-vector',
-		'dark-gray-vector',
-		'oceans',
-		'national-geographic',
-		'terrain',
-		'osm',
+		{ value: 'streets', label: 'Streets' },
+		{ value: 'satellite', label: 'Satellite' },
+		{ value: 'hybrid', label: 'Hybrid' },
+		{ value: 'topo-vector', label: 'Topographic' },
+		{ value: 'gray-vector', label: 'Light Gray' },
+		{ value: 'dark-gray-vector', label: 'Dark Gray' },
+		{ value: 'oceans', label: 'Oceans' },
+		{ value: 'terrain', label: 'Terrain' },
+		{ value: 'osm', label: 'OpenStreetMap' },
 	];
 
-	// Composition of components
 	return (
 		<CalciteShell>
 			<CalciteNavigation navigation-action slot="header" id="nav">
@@ -65,63 +54,48 @@ function App() {
 				></CalciteNavigationLogo>
 			</CalciteNavigation>
 			<CalciteShellPanel slot="panel-start">
-				<CalcitePanel style={{ padding: '10px' }} className="options-container">
-					{/* 2D/3D Toggle */}
-					<button
-						onClick={() => setIs3D((prev) => !prev)}
-						style={{
-							marginBottom: '10px',
-							padding: '5px',
-							display: 'block',
-							width: '100%',
-						}}
-					>
-						{is3D ? 'Switch to 2D' : 'Switch to 3D'}
-					</button>
+				<CalcitePanel>
+					<CalciteLabel>
+						Switch between 2D and 3D
+						<CalciteButton
+							onClick={() => setIs3D((prev) => !prev)}
+							appearance="solid"
+							iconStart={is3D ? '2d-explore' : 'cube'}
+							style={{
+								width: '100%',
+								marginTop: '10px',
+							}}
+						>
+							{is3D ? '2D' : '3D'}
+						</CalciteButton>
+					</CalciteLabel>
 
-					{/* Show basemap options if 2D */}
 					{!is3D && (
-						<>
-							<h4>Choose a Basemap</h4>
+						<CalciteLabel>
+							Choose a basemap
 							<CalciteSelect
 								label="Basemap"
 								style={{
 									width: '100%',
-									marginBottom: '10px',
+									marginTop: '10px',
 								}}
 								value={basemap}
 								onCalciteSelectChange={handleBasemapChange}
 							>
-								{basemaps.map((mapStyle) => (
-									<CalciteOption key={mapStyle} value={mapStyle}>
-										{mapStyle}
+								{basemaps.map(({ value, label }) => (
+									<CalciteOption key={value} value={value}>
+										{label}
 									</CalciteOption>
 								))}
 							</CalciteSelect>
-						</>
-					)}
-
-					{/* Show coordinates if available */}
-					{coordinates && (
-						<>
-							<Coordinates
-								className="coordinates"
-								latitude={coordinates.latitude}
-								longitude={coordinates.longitude}
-							/>
-						</>
+						</CalciteLabel>
 					)}
 				</CalcitePanel>
 			</CalciteShellPanel>
 
-			{/* Custom React component for the map */}
 			<CalcitePanel>
 				<div className="map-container">
-					<MyMap
-						basemap={basemap}
-						onViewClick={handleViewClick}
-						is3D={is3D} // Pass the is3D state
-					/>
+					<MyMap basemap={basemap} is3D={is3D} />
 				</div>
 			</CalcitePanel>
 		</CalciteShell>

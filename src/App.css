@@ -54,11 +54,6 @@ body {
 	background-color: var(--calcite-color-background);
 }
 
-.options-container calcite-button {
-	margin: 1rem;
-	width: 7rem;
-}
-
 .coordinates {
 	margin-left: 1rem;
 	margin-right: 1rem;
