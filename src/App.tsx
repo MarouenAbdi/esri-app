@@ -6,12 +6,16 @@ import {
 	CalcitePanel,
 	CalciteShell,
 	CalciteShellPanel,
+	CalciteSelect,
+	CalciteOption,
 } from '@esri/calcite-components-react';
 import '@esri/calcite-components/dist/components/calcite-navigation';
 import '@esri/calcite-components/dist/components/calcite-navigation-logo';
 import '@esri/calcite-components/dist/components/calcite-panel';
 import '@esri/calcite-components/dist/components/calcite-shell';
 import '@esri/calcite-components/dist/components/calcite-shell-panel';
+import '@esri/calcite-components/dist/components/calcite-select';
+import '@esri/calcite-components/dist/components/calcite-option';
 import './App.css';
 import Coordinates from './components/Coordinates';
 import MyMap from './components/Map';
@@ -22,8 +26,11 @@ function App() {
 	const [is3D, setIs3D] = useState(false);
 
 	// Handle basemap change
-	const handleBasemapChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setBasemap(event.target.value);
+	const handleBasemapChange = (event: CustomEvent) => {
+		const target = event.target as HTMLCalciteSelectElement;
+		if (target) {
+			setBasemap(target.value);
+		}
 	};
 
 	// Handle map click
@@ -76,23 +83,21 @@ function App() {
 					{!is3D && (
 						<>
 							<h4>Choose a Basemap</h4>
-							<select
+							<CalciteSelect
+								label="Basemap"
 								style={{
 									width: '100%',
-									padding: '10px',
 									marginBottom: '10px',
-									border: '1px solid #ccc',
-									borderRadius: '4px',
 								}}
 								value={basemap}
-								onChange={handleBasemapChange}
+								onCalciteSelectChange={handleBasemapChange}
 							>
 								{basemaps.map((mapStyle) => (
-									<option key={mapStyle} value={mapStyle}>
+									<CalciteOption key={mapStyle} value={mapStyle}>
 										{mapStyle}
-									</option>
+									</CalciteOption>
 								))}
-							</select>
+							</CalciteSelect>
 						</>
 					)}
 
