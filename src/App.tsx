@@ -64,7 +64,11 @@ function App() {
 				></CalciteNavigationLogo>
 			</CalciteNavigation>
 			<CalciteShellPanel slot="panel-start">
-				<CalcitePanel heading="Map Controls" className="options-container">
+				<CalcitePanel
+					style={{ padding: '10px' }}
+					heading="Map Controls"
+					className="options-container"
+				>
 					{/* 2D/3D Toggle */}
 					<button
 						onClick={() => setIs3D((prev) => !prev)}
